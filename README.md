@@ -19,7 +19,7 @@ Napisz aplikację WWW realizującą uwierzytelnianie w oparciu o tajne hasło. Z
 - **(niezbędne)** restrykcyjna weryfikacje danych pochodzących z formularza login-hasło,
 - **(niezbędne)** przechowywanie hasła chronione funkcją hash i solą,
 - **(niezbędne)** możliwość umieszczenia na serwerze notatek dostępnych publicznie lub dla określonych - użytkowników,
-- **(niezbędne)** zabezpieczenie transmisji poprzez wykorzystanie protokołu https,
+- :white_check_mark: **(niezbędne)** zabezpieczenie transmisji poprzez wykorzystanie protokołu https,
 - **(niezbędne)** możliwość zmiany hasła,
 - dodatkowa kontrola spójności sesji (przeciw atakom XSRF),
 - wielokrotne wykorzystanie funkcji hash, żeby wydłużyć ataki brute-force na hash,
