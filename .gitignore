@@ -3,6 +3,3 @@
 
 # Config for VSCode
 .vscode
-
-# Python virtual enviroment
-venv

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block css_links %}
+<link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }}>
+{% endblock %}
+
+{% block main %}
+<section class="container text-center px-5 intro">
+  <h1 class="mt-5">Podziel się swoimi notatkami z łatwością</h1>
+  <p class="text-justify">
+    Jeśli potrzebujesz przekazać swoje notatki innym osobom lub chcesz je udostępnić publicznie to trafiłeś w dobre
+    miejsce. <b>Shielded notes</b> w bezpieczny i profesjonalny o nie zadba.
+  </p>
+  {% if not login %}
+  <a class="btn btn-success disabled" href="#">Rejestracja</a>
+  {% endif %}
+
+  <section class="cotainer my-4 d-flex justify-content-center">
+    <img class="mx-auto img-fluid" width="700px" src={{ url_for('static', filename='img/Post-It-Notes.jpg') }}
+      alt="Note paper on cardboard background">
+  </section>
+</section>
+{% endblock %}

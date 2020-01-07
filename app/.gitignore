@@ -1,0 +1,5 @@
+# Python virtual enviroment
+venv
+
+# Python biuld cashe
+__pycache__
