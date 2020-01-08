@@ -12,7 +12,7 @@
     miejsce. <b>Shielded notes</b> w bezpieczny i profesjonalny o nie zadba.
   </p>
   {% if not login %}
-  <a class="btn btn-success disabled" href="#">Rejestracja</a>
+  <a class="btn btn-success" href={{ url_for('account.register') }}>Rejestracja</a>
   {% endif %}
 
   <section class="cotainer my-4 d-flex justify-content-center">
