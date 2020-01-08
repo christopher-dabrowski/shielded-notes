@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block css_links %}
+<!-- <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }}> -->
+{% endblock %}
+
+{% block main %}
+<section class="container card mt-sm-5 mt-2">
+  <div class="card-body">
+    <h3 class="card-title text-center">Utwórz konto</h3>
+    <p class="card-text text-center">
+      Z nami Twoje dane będą bezpieczne 🛡
+    </p>
+
+    <form method="POST" action="/register">
+      <!-- TODO: Display entropy -->
+      {{ form.csrf_token }}
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input { type="text" value="{{form.login.data if form.login.data}}"
+          class="form-control {{'is-invalid' if form.login.errors}}"
+          name="login" placeholder="Jakaś fajna nazwa">
+        {% for error in form.login.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input type="password" value="{{form.password.data if form.password.data}}"
+          class="form-control {{'is-invalid' if form.password.errors}}"
+          type="password" class="form-control"
+          name="password" placeholder="Długie i bezpieczne hasło">
+        {% for error in form.password.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="password2">Powtórz hasło</label>
+        <input type="password" value="{{form.password2.data if form.password2.data}}"
+          class="form-control {{'is-invalid' if form.password2.errors}}"
+          name="password2" placeholder="To co wyżej">
+        {% for error in form.password2.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adres mailowy</label>
+        <input type="email" value="{{form.email.data if form.email.data}}"
+          class="form-control {{'is-invalid' if form.email.errors}}"
+          name="email"placeholder="Mail">
+        {% for error in form.email.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="lucky_number">Twoja szczęśliwa liczba</label>
+        <input type="number" value="{{form.lucky_number.data if form.lucky_number.data}}"
+          class="form-control {{'is-invalid' if form.lucky_number.errors}}"
+          name="lucky_number" placeholder="Lepiej ją zapamiętaj">
+        {% for error in form.lucky_number.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary center">Załóż konto</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
