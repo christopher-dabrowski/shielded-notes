@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session
 from forms import RegisterForm
 from models import db, User
+import bcrypt
 
 users = Blueprint('account', __name__, template_folder='templates')
 
@@ -17,9 +18,10 @@ def register():
         password = form.password.data
         email = form.email.data
         lucky_number = form.lucky_number.data
-        # TODO: Convert password to hash
 
-        user = User(login=login, password_hash=password,
+        password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+        user = User(login=login, password_hash=password_hash,
                     email=email, lucky_number=lucky_number)
         db.session.add(user)
         db.session.commit()

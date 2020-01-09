@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
+import bcrypt
 
 db = SQLAlchemy()
 
@@ -16,7 +17,9 @@ class User(db.Model):
 
 
 def fill_db_with_values():
-    sample_user = User(login='Tomasz', password_hash='Pa$$word',
+    password_hash = bcrypt.hashpw('Pa$$word'.encode(), bcrypt.gensalt())
+
+    sample_user = User(login='Tomasz', password_hash=password_hash,
                        email='tomasz@pw.edu.pl', lucky_number=17)
     db.session.add(sample_user)
     db.session.commit()

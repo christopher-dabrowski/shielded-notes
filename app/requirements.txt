@@ -1,5 +1,7 @@
 astroid==2.3.3
 autopep8==1.4.4
+bcrypt==3.1.7
+cffi==1.13.2
 Click==7.0
 Flask==1.1.1
 Flask-Session==0.3.1
@@ -12,6 +14,7 @@ lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
 pycodestyle==2.5.0
+pycparser==2.19
 pylint==2.4.4
 python-dotenv==0.10.3
 redis==3.3.11
