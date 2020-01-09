@@ -1,6 +1,7 @@
 import os
 from secrets import token_hex
 from redis import Redis
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
@@ -12,5 +13,9 @@ class Config(object):
     SESSION_REDIS = Redis(REDIS_HOST)
     PERMANENT_SESSION_LIFETIME = 60 * 15
     SESSION_COOKIE_SECURE = FLASK_ENV == 'production'
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'sqlite.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or token_hex(1024)
