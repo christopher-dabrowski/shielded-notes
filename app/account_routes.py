@@ -1,7 +1,7 @@
 """Routes connected to users accounts"""
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from forms import RegisterForm, LoginForm
 from models import db, User
 import bcrypt
@@ -11,6 +11,8 @@ users = Blueprint('account', __name__, template_folder='templates')
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
+    logout_user()
+
     form = RegisterForm(meta={'csrf_context': session})
     if form.validate_on_submit():
         flash('Konto zostało utworzone', 'alert-success')
@@ -50,3 +52,11 @@ def login():
         return redirect(url_for('index'))
 
     return render_template('login.html', form=form)
+
+
+@users.route('/logout')
+def logout():
+    logout_user()
+    flash('Nastąpiło poprawne wylogowanie', 'alert-success')
+
+    return redirect(url_for('index'))
