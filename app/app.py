@@ -3,7 +3,7 @@
 from flask import Flask, request, render_template, current_app, session
 from flask_session import Session
 from config import Config
-from models import db, User
+from models import db, User, fill_db_with_values
 from account_routes import users
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ db.init_app(app)
 with app.app_context():
     db.drop_all()
     db.create_all()
+    fill_db_with_values()
 
 app.register_blueprint(users)
 
