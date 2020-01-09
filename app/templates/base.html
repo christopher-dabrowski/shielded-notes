@@ -58,7 +58,7 @@
           </li>
           {% else %}
           <li class="nav-item mr-3">
-            <a class="nav-link btn btn-success disabled" href="#">Logowanie</a>
+            <a class="nav-link btn btn-success" href={{url_for('account.login')}}>Logowanie</a>
           </li>
           {% endif %}
 

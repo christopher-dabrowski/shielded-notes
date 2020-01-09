@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block css_links %}
+{% endblock %}
+
+{% block main %}
+<section class="container card mt-sm-5 mt-2">
+  <div class="card-body">
+    <h3 class="card-title text-center">Logowanie</h3>
+
+    <form method="POST" action="/register">
+      <!-- TODO: Display entropy -->
+      {{ form.csrf_token }}
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input { type="text" value="{{form.login.data if form.login.data}}"
+          class="form-control {{'is-invalid' if form.login.errors}}" name="login" placeholder="Twój login">
+        {% for error in form.login.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input type="password" value="{{form.password.data if form.password.data}}"
+          class="form-control {{'is-invalid' if form.password.errors}}" type="password" class="form-control"
+          name="password" placeholder="Twoje hasło">
+        {% for error in form.password.errors %}
+        <p class="invalid-feedback">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary center">Zaloguj</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

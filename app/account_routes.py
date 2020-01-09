@@ -1,7 +1,7 @@
 """Routes connected to users accounts"""
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from models import db, User
 import bcrypt
 
@@ -19,7 +19,8 @@ def register():
         email = form.email.data
         lucky_number = form.lucky_number.data
 
-        password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(
+            password.encode(), bcrypt.gensalt()).decode()
 
         user = User(login=login, password_hash=password_hash,
                     email=email, lucky_number=lucky_number)
@@ -34,3 +35,12 @@ def register():
     print('Users')
     print(users)
     return render_template('register.html', form=form)
+
+
+@users.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(meta={'csrf_context': session})
+    if form.validate_on_submit():
+        return 'Super'
+
+    return render_template('login.html', form=form)

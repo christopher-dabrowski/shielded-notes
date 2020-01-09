@@ -17,7 +17,8 @@ class User(db.Model):
 
 
 def fill_db_with_values():
-    password_hash = bcrypt.hashpw('Pa$$word'.encode(), bcrypt.gensalt())
+    password_hash = bcrypt.hashpw(
+        'Pa$$word'.encode(), bcrypt.gensalt()).decode()
 
     sample_user = User(login='Tomasz', password_hash=password_hash,
                        email='tomasz@pw.edu.pl', lucky_number=17)

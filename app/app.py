@@ -22,10 +22,6 @@ app.register_blueprint(users)
 @app.route('/')
 def index():
     # FIXME: Remove this
-    # db.create_all()
-    # u = User(username='john', email='john@example.com')
-    # db.session.add(u)
-    # db.session.commit()
 
     # session['test'] = 'TEST!'
     # session['logged'] = True
@@ -35,5 +31,6 @@ def index():
 
 @app.route('/session')
 def get_session():
+    # TODO: Remove session route
     print(list(str(zip(session.keys(), session.values()))))
     return str(list(zip(session.keys(), session.values())))

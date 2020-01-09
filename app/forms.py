@@ -69,3 +69,9 @@ class RegisterForm(BaseForm):
     lucky_number = IntegerField('Lucky number', validators=[
         DataRequired('Brak szczęśliwej liczby :(')
     ])
+
+
+class LoginForm(BaseForm):
+    # TODO: Login validation
+    login = StringField('login', validators=[])
+    password = StringField('password', validators=[])
