@@ -17,8 +17,6 @@ with app.app_context():
     db.drop_all()
     db.create_all()
     fill_db_with_values()
-    print('After init', db)
-    print(db.session)
 login_manager.init_app(app)
 
 app.register_blueprint(users)
@@ -26,11 +24,6 @@ app.register_blueprint(users)
 
 @app.route('/')
 def index():
-    # FIXME: Remove this
-
-    # session['test'] = 'TEST!'
-    # session['logged'] = True
-    # session['user_name'] = 'Tomas'
     return render_template('index.html')
 
 
@@ -39,15 +32,3 @@ def get_session():
     # TODO: Remove session route
     print(list(str(zip(session.keys(), session.values()))))
     return str(list(zip(session.keys(), session.values())))
-
-
-@app.route('/changeName')
-def change_name():
-    print('In app route')
-    user = db.session.query(User).get(current_user.id)
-    print(user)
-    user.login = 'Mistery'
-    print(db.session.dirty)
-    db.session.commit()
-
-    return redirect(url_for('index'))

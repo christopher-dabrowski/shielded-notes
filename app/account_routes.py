@@ -31,12 +31,6 @@ def register():
         db.session.commit()
         return redirect(url_for('index'))
 
-    print('Form invalid')
-    print(form.login.errors)
-
-    users = User.query.all()
-    print('Users')
-    print(users)
     return render_template('register.html', form=form)
 
 
@@ -74,16 +68,12 @@ def change_password():
     form = ChangePasswordForm(meta={'csrf_context': session})
     if form.validate_on_submit():
         password = form.password.data
-        user = db.session.query(User).get(current_user.id)
+        current_id = current_user.id
+        user = User.query.filter_by(id=current_id).first()
         user.set_password(password)
-        user.login = 'Fake login'
-        print(db.session.dirty)
-        print('In route', db)
-        print(db.session)
+        db.session.commit()
 
-        # return 'Hasło zostanie zmienione'
-
-        # flash('Hasło zostało zmienione', 'alert-success')
-        # return redirect('account')
+        flash('Hasło zostało zmienione', 'alert-success')
+        return redirect(url_for('account.account'))
 
     return render_template('change_password.html', form=form)
