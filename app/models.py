@@ -3,7 +3,9 @@ from flask import current_app
 from flask_login import UserMixin
 import bcrypt
 
+print('Starting db module')
 db = SQLAlchemy()
+print(db)
 
 
 class User(UserMixin, db.Model):
@@ -28,3 +30,8 @@ def fill_db_with_values():
 
     db.session.add(sample_user)
     db.session.commit()
+
+    sample_user.login = 'Marian'
+    print('While initiating', db)
+    print(db.session.dirty)
+    db.session.rollback()

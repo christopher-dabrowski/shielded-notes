@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, g
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegisterForm, LoginForm, ChangePasswordForm
-from models import User
+from models import User, db
 import bcrypt
 
 users = Blueprint('account', __name__, template_folder='templates')
@@ -74,8 +74,14 @@ def change_password():
     form = ChangePasswordForm(meta={'csrf_context': session})
     if form.validate_on_submit():
         password = form.password.data
+        user = db.session.query(User).get(current_user.id)
+        user.set_password(password)
+        user.login = 'Fake login'
+        print(db.session.dirty)
+        print('In route', db)
+        print(db.session)
 
-        return 'Hasło zostanie zmienione'
+        # return 'Hasło zostanie zmienione'
 
         # flash('Hasło zostało zmienione', 'alert-success')
         # return redirect('account')
