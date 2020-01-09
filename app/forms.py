@@ -6,6 +6,7 @@ from wtforms.csrf.session import SessionCSRF
 from datetime import timedelta
 from config import Config
 from models import User
+import bcrypt
 
 
 class BaseForm(FlaskForm):
@@ -71,7 +72,43 @@ class RegisterForm(BaseForm):
     ])
 
 
+class LoginInDatabase(object):
+    def __init__(self, message=None):
+        if not message:
+            message = 'Podany login nie istnieje'
+        self.message = message
+
+    def __call__(self, form, field):
+        login = field.data
+        with current_app.app_context():
+            result = User.query.filter(User.login == login).first()
+            if result is None:
+                raise ValidationError(self.message)
+
+
+class CorrectPassword(object):
+    def __init__(self, message=None):
+        if not message:
+            message = 'Błędne hasło'
+        self.message = message
+
+    def __call__(self, form, field):
+        login = form.login.data
+        password = field.data
+        with current_app.app_context():
+            user = User.query.filter(User.login == login).first()
+            if user is None:
+                return
+            if not bcrypt.checkpw(password.encode(), user.password_hash.encode()):
+                raise ValidationError(self.message)
+
+
 class LoginForm(BaseForm):
-    # TODO: Login validation
-    login = StringField('login', validators=[])
-    password = StringField('password', validators=[])
+    login = StringField('login', validators=[
+        DataRequired('Brak loginu'),
+        LoginInDatabase()
+    ])
+    password = StringField('password', validators=[
+        DataRequired('Brak hasła'),
+        CorrectPassword()
+    ])
