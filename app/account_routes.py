@@ -1,9 +1,9 @@
 """Routes connected to users accounts"""
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request, session
-from flask_login import current_user, login_user, logout_user
-from forms import RegisterForm, LoginForm
-from models import db, User
+from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, g
+from flask_login import current_user, login_user, logout_user, login_required
+from forms import RegisterForm, LoginForm, ChangePasswordForm
+from models import User
 import bcrypt
 
 users = Blueprint('account', __name__, template_folder='templates')
@@ -60,3 +60,24 @@ def logout():
     flash('Nastąpiło poprawne wylogowanie', 'alert-success')
 
     return redirect(url_for('index'))
+
+
+@login_required
+@users.route('/account')
+def account():
+    return render_template('account.html')
+
+
+@login_required
+@users.route('/account/changePassword', methods=['GET', 'POST'])
+def change_password():
+    form = ChangePasswordForm(meta={'csrf_context': session})
+    if form.validate_on_submit():
+        password = form.password.data
+
+        return 'Hasło zostanie zmienione'
+
+        # flash('Hasło zostało zmienione', 'alert-success')
+        # return redirect('account')
+
+    return render_template('change_password.html', form=form)

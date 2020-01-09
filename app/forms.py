@@ -112,3 +112,21 @@ class LoginForm(BaseForm):
         DataRequired('Brak hasła'),
         CorrectPassword()
     ])
+
+
+class ChangePasswordForm(BaseForm):
+    login = StringField('login')
+
+    old_password = PasswordField('Old password', validators=[
+        DataRequired('Brak starego hasła'),
+        CorrectPassword()
+    ])
+
+    password = PasswordField('password', validators=[
+        DataRequired('Brak hasła'),
+        Length(min=6, message='Hasło musi mieć co najmniej 6 znaków'),
+        Length(max=72, message='Hasło może mieć co najwyżej 72 znaki')
+    ])
+    password2 = PasswordField('password2', validators=[
+        EqualTo('password', 'Hasła się różnią')
+    ])

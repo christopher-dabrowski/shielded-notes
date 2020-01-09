@@ -52,12 +52,12 @@
             <a class="nav-link btn disabled" href="#">Moje notatki</a>
           </li>
           <li class="nav-item mr-3">
-            <a class="nav-link btn disabled" href="#">Konto</a>
+            <a class="nav-link btn" href={{url_for('account.account')}}>Konto</a>
           </li>
           {% endif %}
           {% if current_user.is_authenticated %}
           <li class="nav-item mr-3">
-            <a class="nav-link btn btn-outline-danger" href={{url_for('account.logout')}}>Wyloguj</a>
+            <a class="nav-link btn btn-danger" href={{url_for('account.logout')}}>Wyloguj</a>
           </li>
           {% else %}
           <li class="nav-item mr-3">

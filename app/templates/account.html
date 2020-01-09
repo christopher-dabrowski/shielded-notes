@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block css_links %}
+{% endblock %}
+
+{% block main %}
+<section class="container card mt-sm-5 mt-2">
+  <div class="card-body">
+    <h3 class="card-title text-center">Dane konta</h3>
+
+    <p class="mr-4"><b>Login:</b> {{current_user.login}}</p>
+
+    <div class="d-flex align-items-baseline">
+      <p class="mr-4"><b>Email:</b> {{current_user.email}}</p>
+      <button class="btn btn-secondary disabled">Zmień</button>
+    </div>
+
+    <a class="btn btn-danger" href={{url_for('account.change_password')}}>Resetuj hasło</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

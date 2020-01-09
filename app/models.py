@@ -13,15 +13,18 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String())
     lucky_number = db.Column(db.Integer)
 
+    def set_password(self, password):
+        self.password_hash = bcrypt.hashpw(
+            password.encode(), bcrypt.gensalt()).decode()
+
     def __repr__(self):
         return f'{self.login}'
 
 
 def fill_db_with_values():
-    password_hash = bcrypt.hashpw(
-        'Pa$$word'.encode(), bcrypt.gensalt()).decode()
+    sample_user = User(
+        login='Tomasz', email='tomasz@pw.edu.pl', lucky_number=17)
+    sample_user.set_password('Pa$$word')
 
-    sample_user = User(login='Tomasz', password_hash=password_hash,
-                       email='tomasz@pw.edu.pl', lucky_number=17)
     db.session.add(sample_user)
     db.session.commit()
