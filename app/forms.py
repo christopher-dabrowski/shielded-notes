@@ -1,7 +1,7 @@
 from flask_wtf.form import FlaskForm
 from flask import current_app
 from wtforms import StringField, PasswordField, ValidationError, FileField, Form, IntegerField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 from wtforms.csrf.session import SessionCSRF
 from datetime import timedelta
 from config import Config
@@ -68,7 +68,9 @@ class RegisterForm(BaseForm):
     ])
 
     lucky_number = IntegerField('Lucky number', validators=[
-        DataRequired('Brak szczęśliwej liczby :(')
+        DataRequired('Brak szczęśliwej liczby :('),
+        NumberRange(-10000000, 10000000,
+                    'Liczba musi być z przedziału od -10000000 do 10000000')
     ])
 
 
