@@ -9,9 +9,9 @@
   <h1 class="mt-5">Podziel się swoimi notatkami z łatwością</h1>
   <p class="text-justify">
     Jeśli potrzebujesz przekazać swoje notatki innym osobom lub chcesz je udostępnić publicznie to trafiłeś w dobre
-    miejsce. <b>Shielded notes</b> w bezpieczny i profesjonalny o nie zadba.
+    miejsce. <b>Shielded notes</b> w bezpieczny i profesjonalny sposób o nie zadba.
   </p>
-  {% if not login %}
+  {% if current_user.is_anonymous %}
   <a class="btn btn-success" href={{ url_for('account.register') }}>Rejestracja</a>
   {% endif %}
 

@@ -1,11 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
+from flask_login import UserMixin
 import bcrypt
 
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(), index=True, unique=True)
     email = db.Column(db.String(), index=True, unique=True)

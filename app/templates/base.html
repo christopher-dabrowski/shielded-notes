@@ -44,15 +44,18 @@
           <li class="nav-item mr-3">
             <a class="nav-link text-center disabled" href="#">O projekcie</a>
           </li>
-          {% if login %}
+          {% if current_user.is_authenticated %}
           <li class="nav-item mr-3">
             <a class="nav-link btn disabled" href="#">Przeglądaj</a>
           </li>
           <li class="nav-item mr-3">
             <a class="nav-link btn disabled" href="#">Moje notatki</a>
           </li>
+          <li class="nav-item mr-3">
+            <a class="nav-link btn disabled" href="#">Konto</a>
+          </li>
           {% endif %}
-          {% if login %}
+          {% if current_user.is_authenticated %}
           <li class="nav-item mr-3">
             <a class="nav-link btn btn-outline-danger disabled" href="#">Wyloguj</a>
           </li>
@@ -66,9 +69,11 @@
       </div>
     </nav>
 
-    {% if login %}
+    {% if current_user.is_authenticated %}
     <section class="login-lnfo pt-md-2">
-      <p class="text-center text-muted">Zalogowany jako: <span class="font-weight-bold">{{login}}</span></p>
+      <p class="text-center text-muted">Zalogowany jako:
+        <span class="font-weight-bold">{{current_user.login}}</span>
+      </p>
     </section>
     {% endif %}
 
