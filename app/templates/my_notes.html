@@ -1,54 +1,109 @@
 {% extends "base.html" %}
 
 {% block css_links %}
+<style>
+  textarea:disabled {
+    color: rgba(128, 128, 128, 0.53);
+  }
+</style>
 {% endblock %}
 
 {% block main %}
-<div class="container">
+<div class="container mt-3">
   <h3 class="text-center">Moje notatki</h3>
 
-  <section class="d-flex flex-wrap">
+  <section>
+    <h4>Utwórz nową notatkę</h4>
 
-    <article class="card text-white bg-secondary my-3 mx-2" style="width: 20rem">
-      <div class="card-header">Praca</div>
-      <div class="card-body">
-        <h4 class="card-title">Wiedźmin potrzebny</h4>
-        <p class="card-text">
-          Kapłan Wiecznego Ognia Wielebny zleca zabicie 3 utopców i przyniesienie ich mózgów.
-        </p>
-      </div>
-    </article>
+    <form class="d-flex mt-4 justify-content-center" method="POST" action={{url_for('notes.my_notes')}}>
 
-    <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
-      <div class="card-header">Zaproszenie</div>
-      <div class="card-body">
-        <h4 class="card-title">Wszyscy mile widziani</h4>
-        <p class="card-text">
-          Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
-        </p>
-      </div>
-    </article>
+      <article class="card text-white bg-secondary mx-2" style="width: 20rem">
+        <div class="card-header">
+          <input class="form-control w-75 float-left" type="text" name="heading" placeholder="Nagłówek notatki"
+            maxlength="15">
+          <div id="global-badge" class="float-right badge badge-pill badge-info" style="display: none;">
+            <i class="fas fa-globe-europe"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <input class="mb-2 form-control" type="text" name="title" placeholder="Tytuł notatki" maxlength="10" required>
 
-    <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
-      <div class="card-header">Zaproszenie</div>
-      <div class="card-body">
-        <h4 class="card-title">Wszyscy mile widziani</h4>
-        <p class="card-text">
-          Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
-        </p>
-      </div>
-    </article>
+          <textarea class="w-100 form-control" name="body" placeholder="Tekst notatki"> </textarea>
+        </div>
+      </article>
 
-    <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
-      <div class="card-header">Zaproszenie</div>
-      <div class="card-body">
-        <h4 class="card-title">Wszyscy mile widziani</h4>
-        <p class="card-text">
-          Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
-        </p>
-      </div>
-    </article>
+      <section class="border border-primary rounded p-2 ml-2">
 
+        <div class="form-group">
+          <label for="share">
+            <span>Lista udostępnień</span>
+            <i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="top"
+              title="Po jednej osobie na linię"></i>
+          </label>
+          <textarea class="form-control" name="share" id="share-list"></textarea>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="public" id="public-toggle">
+          <label class="form-check-label" for="public">
+            Publiczna notatka
+          </label>
+        </div>
+
+        <button class="btn btn-primary mt-2" type="submit">
+          Utwórz notatkę
+        </button>
+
+      </section>
+    </form>
+  </section>
+
+  <hr>
+
+  <section>
+    <h4>Lista notatek</h4>
+
+    <div class="d-flex flex-wrap">
+      <article class="card text-white bg-secondary my-3 mx-2" style="width: 20rem">
+        <div class="card-header">Praca</div>
+        <div class="card-body">
+          <h4 class="card-title">Wiedźmin potrzebny</h4>
+          <p class="card-text">
+            Kapłan Wiecznego Ognia Wielebny zleca zabicie 3 utopców i przyniesienie ich mózgów.
+          </p>
+        </div>
+      </article>
+
+      <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
+        <div class="card-header">Zaproszenie</div>
+        <div class="card-body">
+          <h4 class="card-title">Wszyscy mile widziani</h4>
+          <p class="card-text">
+            Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
+          </p>
+        </div>
+      </article>
+
+      <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
+        <div class="card-header">Zaproszenie</div>
+        <div class="card-body">
+          <h4 class="card-title">Wszyscy mile widziani</h4>
+          <p class="card-text">
+            Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
+          </p>
+        </div>
+      </article>
+
+      <article class="card text-white bg-success my-3 mx-2" style="width: 20rem;">
+        <div class="card-header">Zaproszenie</div>
+        <div class="card-body">
+          <h4 class="card-title">Wszyscy mile widziani</h4>
+          <p class="card-text">
+            Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.
+          </p>
+        </div>
+      </article>
+    </div flex-wrap">
 
   </section>
 
@@ -56,4 +111,12 @@
 {% endblock %}
 
 {% block js %}
+<!-- Enable tooltips -->
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+<script src={{url_for('static', filename='js/my_notes.js')}}></script>
 {% endblock %}
