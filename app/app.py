@@ -7,6 +7,7 @@ from config import Config
 from models import db, User, fill_db_with_values
 from login import login_manager
 from account_routes import users
+from notes_routes import notes
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,6 +21,7 @@ with app.app_context():
 login_manager.init_app(app)
 
 app.register_blueprint(users)
+app.register_blueprint(notes)
 
 
 @app.route('/')
