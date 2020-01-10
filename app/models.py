@@ -32,9 +32,19 @@ class Note(db.Model):
 
 
 def fill_db_with_values():
-    sample_user = User(
+    tomas = User(
         login='Tomasz', email='tomasz@pw.edu.pl', lucky_number=17)
-    sample_user.set_password('Pa$$word')
+    tomas.set_password('Pa$$word')
+    db.session.add(tomas)
 
-    db.session.add(sample_user)
+    note = Note(title='Barista potrzebny', heading='Praca',
+                body='W najbliższą sobotę będzie za duży ruch w kawiarni. Potrzebny barista na jeden dzień. Dobra stawka gwarantowana.',
+                owner=tomas, public=False)
+    db.session.add(note)
+
+    note = Note(title='Wszyscy mile widziani', heading='Zaproszenie',
+                body='Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.',
+                owner=tomas, public=True)
+    db.session.add(note)
+
     db.session.commit()
