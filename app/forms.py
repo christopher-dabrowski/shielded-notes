@@ -1,6 +1,6 @@
 from flask_wtf.form import FlaskForm
 from flask import current_app
-from wtforms import StringField, PasswordField, ValidationError, FileField, Form, IntegerField
+from wtforms import StringField, PasswordField, ValidationError, FileField, Form, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 from wtforms.csrf.session import SessionCSRF
 from datetime import timedelta
@@ -132,3 +132,16 @@ class ChangePasswordForm(BaseForm):
     password2 = PasswordField('password2', validators=[
         EqualTo('password', 'Hasła się różnią')
     ])
+
+
+class CreateNoteForm(BaseForm):
+    heading = StringField(validators=[
+        Length(max=15, message='Nagłówek może mieć najwyżej 15 znaków')
+    ])
+
+    title = StringField(validators=[
+        DataRequired('Tytuł jest wymagany'),
+        Length(max=10, message='Tytuł może mieć najwyżej 10 znaków')
+    ])
+
+    body = TextAreaField()

@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(), index=True, unique=True)
     password_hash = db.Column(db.String())
     lucky_number = db.Column(db.Integer)
+    notes = db.relationship('Note', backref='owner', lazy=True)
 
     def set_password(self, password):
         self.password_hash = bcrypt.hashpw(
@@ -19,6 +20,14 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'{self.login}'
+
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String())
+    heading = db.Column(db.String())
+    body = db.Column(db.String())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 def fill_db_with_values():

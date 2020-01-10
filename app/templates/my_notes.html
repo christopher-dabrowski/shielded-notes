@@ -16,6 +16,7 @@
     <h4>Utwórz nową notatkę</h4>
 
     <form class="d-flex mt-4 justify-content-center" method="POST" action={{url_for('notes.my_notes')}}>
+      {{form.csrf_token}}
 
       <article class="card text-white bg-secondary mx-2" style="width: 20rem">
         <div class="card-header">
