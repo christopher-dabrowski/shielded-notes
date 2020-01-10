@@ -11,17 +11,21 @@ notes = Blueprint('notes', __name__, template_folder='templates')
 @notes.route('/myNotes', methods=['GET', 'POST'])
 @login_required
 def my_notes():
+    user = User.query.filter_by(id=current_user.id).first()
+
     form = CreateNoteForm(meta={'csrf_context': session})
     if form.validate_on_submit():
-        user = User.query.filter_by(id=current_user.id).first()
-
         heading = form.heading.data
         title = form.title.data
         body = form.body.data
-        note = Note(title=title, heading=heading, body=body, owner=user)
+        public = form.public.data
+        note = Note(title=title, heading=heading,
+                    body=body, owner=user, public=public)
         db.session.add(note)
         db.session.commit()
 
-        print(user.notes)
+        flash('Notatka została dodana', 'alert alert-success')
 
-    return render_template('my_notes.html', form=form)
+    notes = user.notes
+    print(notes)
+    return render_template('my_notes.html', form=form, notes=notes)

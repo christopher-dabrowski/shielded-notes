@@ -27,6 +27,7 @@ class Note(db.Model):
     title = db.Column(db.String())
     heading = db.Column(db.String())
     body = db.Column(db.String())
+    public = db.Column(db.Boolean())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
