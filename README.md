@@ -10,7 +10,13 @@ Przygotowanie bezpiecznej aplikacji webowej. Aplikacja będzie pozwalała na wym
 
 - [Cel projektu](#cel-projektu)
 - [Spis treści](#spis-treści)
+- [Uruchamianie projektu](#uruchamianie-projektu)
 - [Podstawowe wymagania](#podstawowe-wymagania)
+
+## Uruchamianie projektu
+
+By uruchomić projekt wystarczy wykonać `docker-compose up` w głównym katalogu. Projekt będzie widoczny pod adresem [https://localhost](htts://localhost).  
+Do uruchomienia projektu w ten sposób wymagany jest [Docker](https://www.docker.com/).
 
 ## Podstawowe wymagania
 
