@@ -23,8 +23,8 @@ Napisz aplikację WWW realizującą uwierzytelnianie w oparciu o tajne hasło. Z
 - :white_check_mark: **(niezbędne)** możliwość zmiany hasła,
 - :white_check_mark: dodatkowa kontrola spójności sesji (przeciw atakom XSRF),
 - :white_check_mark: wielokrotne wykorzystanie funkcji hash, żeby wydłużyć ataki brute-force na hash (wolna funkcja hash),
-- weryfikacja liczby nieudanych prób logowania,
+- :white_check_mark: weryfikacja liczby nieudanych prób logowania,
 - dodanie opóźnienia przy weryfikacji hasła w celu wydłużenia ataków zdalnych,
 - :white_check_mark: sprawdzanie jakości hasła (jego entropii),
 - możliwość odzyskania dostępu w przypadku utraty hasła,
-- informowanie użytkownika o nowych podłączeniach do jego konta.
+- :white_check_mark: informowanie użytkownika o nowych podłączeniach do jego konta.

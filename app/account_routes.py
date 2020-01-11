@@ -43,7 +43,7 @@ def login():
 
     form = LoginForm(meta={'csrf_context': session})
     user = User.query.filter_by(login=form.login.data).first()
-    if user:  # A login attempt
+    if user and form.password.data:  # A login attempt
         ip = request.remote_addr
         login = Login(successful=form.validate(), ip=ip, user=user)
         db.session.add(login)
@@ -72,7 +72,14 @@ def logout():
 @users.route('/account')
 @login_required
 def account():
-    return render_template('account.html')
+    user = User.query.filter_by(id=current_user.id).first()
+    login_attempts = sorted(user.login_attempts,
+                            key=lambda a: a.timestamp, reverse=True)
+    time_format = r'%d/%m/%Y %H:%M:%S'
+    login_attempts = [{'ip': a.ip, 'successful': a.successful, 'time': a.timestamp.strftime(time_format)}
+                      for a in login_attempts]
+
+    return render_template('account.html', login_attempts=login_attempts)
 
 
 @login_required
