@@ -32,6 +32,13 @@
 
       <button type="submit" class="btn btn-primary center">Zaloguj</button>
     </form>
+
+    <hr>
+
+    <section class="d-flex flex-column align-items-center">
+      <p>Nie masz konta?</p>
+      <a class="btn btn-info text-white" href={{url_for('account.register')}}>Utwórz nowe</a>
+    </section>
   </div>
 </section>
 {% endblock %}
