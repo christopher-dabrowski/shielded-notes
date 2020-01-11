@@ -1,6 +1,6 @@
 """Routes connected to user notes"""
 
-from flask import Blueprint, render_template, redirect, flash, url_for, request, session
+from flask import Blueprint, render_template, redirect, flash, url_for, request, session, Response, abort
 from flask_login import current_user, login_required
 from forms import CreateNoteForm
 from models import db, User, Note, Share
@@ -35,6 +35,23 @@ def my_notes():
     notes = user.notes
     print(notes)
     return render_template('my_notes.html', form=form, notes=notes)
+
+
+@notes.route('/myNotes/delete/<int:id>')
+@login_required
+def delete_note(id):
+    user = User.query.filter_by(id=current_user.id).first()
+    notes = [note for note in user.notes if note.id == id]
+    if len(notes) > 1:
+        abort(500)
+    if len(notes) < 1:
+        abort(404)
+
+    note = notes[0]
+    db.session.delete(note)
+    db.session.commit()
+
+    return redirect(url_for('notes.my_notes'))
 
 
 @notes.route('/notes')
