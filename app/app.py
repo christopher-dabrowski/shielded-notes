@@ -1,6 +1,7 @@
 """Entry point of the application"""
 
 from flask import Flask, request, render_template, current_app, session, redirect, url_for
+from flaskext.markdown import Markdown
 from flask_session import Session
 from flask_login import current_user
 from config import Config
@@ -12,6 +13,7 @@ from notes_routes import notes
 app = Flask(__name__)
 app.config.from_object(Config)
 Session(app)
+Markdown(app)
 
 db.init_app(app)
 with app.app_context():

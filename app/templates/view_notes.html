@@ -22,7 +22,7 @@
           <span class="float-left">{{note.heading}}</span>
           {% if note.public %}
           <div id="global-badge" class="float-right badge badge-pill badge-info">
-            <i class="fas fa-globe-europe" style="font-size: larger;"></i>
+            <i class="fas fa-globe-europe" style="font-size: larger; padding-top: 2px;"></i>
           </div>
           {% endif %}
         </div>
@@ -30,7 +30,7 @@
         <div class="card-body">
           <h4 class="card-title">{{note.title}}</h4>
           <p class="card-text">
-            {{note.body}}
+            {{note.body | markdown}}
           </p>
 
           <hr>

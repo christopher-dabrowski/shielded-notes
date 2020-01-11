@@ -30,7 +30,11 @@
         <div class="card-body">
           <input class="mb-2 form-control" type="text" name="title" placeholder="Tytuł notatki" maxlength="20" required>
 
-          <textarea class="w-100 form-control" name="body" placeholder="Tekst notatki"> </textarea>
+          <textarea class="w-100 form-control" name="body" placeholder="Tekst notatki"></textarea>
+          <div class="d-flex flex-row-reverse">
+            <i class="fab fa-markdown" style="position: relative; top: -20px; right: 10px; color: gray;"
+              data-toggle="tooltip" data-placement="bottom" title="Wsparcie dla markdown"></i>
+          </div>
         </div>
       </article>
 
@@ -75,7 +79,7 @@
           <div class="float-right d-flex">
             {% if note.public %}
             <div id="global-badge" class="badge badge-pill badge-info">
-              <i class="fas fa-globe-europe" style="font-size: larger;"></i>
+              <i class="fas fa-globe-europe" style="font-size: larger; padding-top: 2px;"></i>
             </div>
             {% endif %}
             <a class="ml-2" href={{url_for('notes.delete_note', id=note.id)}}><i class="fas fa-trash-alt"></i></a>
@@ -85,7 +89,7 @@
         <div class="card-body">
           <h4 class="card-title">{{note.title}}</h4>
           <p class="card-text">
-            {{note.body}}
+            {{note.body | markdown}}
           </p>
 
           {% if not note.public %}
