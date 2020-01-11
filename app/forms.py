@@ -145,3 +145,4 @@ class CreateNoteForm(BaseForm):
     body = TextAreaField()
 
     public = BooleanField()
+    shares = TextAreaField()

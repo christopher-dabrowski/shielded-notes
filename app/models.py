@@ -28,7 +28,19 @@ class Note(db.Model):
     heading = db.Column(db.String())
     body = db.Column(db.String())
     public = db.Column(db.Boolean())
+    share_list = db.relationship('Share', backref='note', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class Share(db.Model):
+    """Many to many relation - note share list"""
+
+    id = db.Column(db.Integer, primary_key=True)
+    note_id = db.Column(db.Integer, db.ForeignKey('note.id'))
+    user_name = db.Column(db.String())
+
+    def __repr__(self):
+        return f'User: {self.user_name} NoteId: {self.note_id}'
 
 
 def fill_db_with_values():

@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request, session
 from flask_login import current_user, login_required
 from forms import CreateNoteForm
-from models import db, User, Note
+from models import db, User, Note, Share
 
 notes = Blueprint('notes', __name__, template_folder='templates')
 
@@ -22,6 +22,11 @@ def my_notes():
         note = Note(title=title, heading=heading,
                     body=body, owner=user, public=public)
         db.session.add(note)
+
+        shares_list = {row.strip() for row in form.shares.data.split()}
+        for user_name in shares_list:
+            share = Share(note=note, user_name=user_name)
+
         db.session.commit()
 
         flash('Notatka została dodana', 'alert alert-success')

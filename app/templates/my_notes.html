@@ -41,7 +41,7 @@
             <i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="top"
               title="Po jednej osobie na linię"></i>
           </label>
-          <textarea class="form-control" name="share" id="share-list"></textarea>
+          <textarea class="form-control" name="shares" id="share-list"></textarea>
         </div>
 
         <div class="form-check">
@@ -81,6 +81,16 @@
           <p class="card-text">
             {{note.body}}
           </p>
+
+          {% if not note.public %}
+          <hr>
+          <p><span class="font-weight-bolder">Udostępniona: </span>
+            {% for share in note.share_list %}
+            {{share.user_name}},
+            {% endfor %}
+          </p>
+          {% endif %}
+
         </div>
       </article>
       {% endfor %}
