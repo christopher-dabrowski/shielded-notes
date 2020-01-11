@@ -26,6 +26,7 @@ def my_notes():
         shares_list = {row.strip() for row in form.shares.data.split()}
         for user_name in shares_list:
             share = Share(note=note, user_name=user_name)
+            db.session.add(share)
 
         db.session.commit()
 
@@ -34,3 +35,22 @@ def my_notes():
     notes = user.notes
     print(notes)
     return render_template('my_notes.html', form=form, notes=notes)
+
+
+@notes.route('/notes')
+@login_required
+def view_notes():
+    user = User.query.filter_by(id=current_user.id).first()
+
+    public_notes = Note.query.filter_by(public=True).all()
+    shared_with_me_id = [share.note_id for share in Share.query.filter_by(
+        user_name=user.login).all()]
+    notes_shared_with_me = Note.query.filter(
+        Note.id.in_(shared_with_me_id)).all()
+
+    notes = public_notes + notes_shared_with_me
+
+    print(public_notes)
+    print(notes_shared_with_me)
+    print(notes)
+    return render_template('view_notes.html', notes=notes)

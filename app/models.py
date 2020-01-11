@@ -31,6 +31,9 @@ class Note(db.Model):
     share_list = db.relationship('Share', backref='note', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __repr__(self):
+        return f'<Note id={self.id} title={self.title}>'
+
 
 class Share(db.Model):
     """Many to many relation - note share list"""
@@ -53,10 +56,17 @@ def fill_db_with_values():
                 body='W najbliższą sobotę będzie za duży ruch w kawiarni. Potrzebny barista na jeden dzień. Dobra stawka gwarantowana.',
                 owner=tomas, public=False)
     db.session.add(note)
+    share = Share(note=note, user_name='JohnyGuitar')
+    db.session.add(share)
 
     note = Note(title='Wszyscy mile widziani', heading='Zaproszenie',
                 body='Już niedługo odbędzie się ślub mojej córki. Wszyscy goście są mile widziani. Im nas więcej tym weselej.',
                 owner=tomas, public=True)
     db.session.add(note)
+
+    johny = User(
+        login='JohnyGuitar', email='jony@place.pl', lucky_number=10)
+    johny.set_password('Pa$$word')
+    db.session.add(johny)
 
     db.session.commit()

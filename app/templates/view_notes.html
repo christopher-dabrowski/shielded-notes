@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block css_links %}
+<style>
+  textarea:disabled {
+    color: rgba(128, 128, 128, 0.53);
+  }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container mt-3">
+  <h3 class="text-center">Przeglądaj notatki</h3>
+
+  <section>
+    <div class="d-flex flex-wrap">
+
+      {% for note in notes %}
+      <article class="card text-white bg-secondary my-3 mx-2" style="width: 20rem">
+
+        <div class="card-header">
+          <span class="float-left">{{note.heading}}</span>
+          {% if note.public %}
+          <div id="global-badge" class="float-right badge badge-pill badge-info">
+            <i class="fas fa-globe-europe" style="font-size: larger;"></i>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="card-body">
+          <h4 class="card-title">{{note.title}}</h4>
+          <p class="card-text">
+            {{note.body}}
+          </p>
+
+          <hr>
+          <p><b>Author:</b> {{note.owner.login}}</p>
+
+        </div>
+
+      </article>
+      {% endfor %}
+
+    </div>
+
+  </section>
+
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

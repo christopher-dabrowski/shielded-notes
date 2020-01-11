@@ -46,7 +46,7 @@
           </li>
           {% if current_user.is_authenticated %}
           <li class="nav-item mr-3">
-            <a class="nav-link btn disabled" href="#">Przeglądaj</a>
+            <a class="nav-link btn" href={{url_for('notes.view_notes')}}>Przeglądaj</a>
           </li>
           <li class="nav-item mr-3">
             <a class="nav-link btn" href={{url_for('notes.my_notes')}}>Moje notatki</a>
