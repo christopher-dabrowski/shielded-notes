@@ -1,6 +1,6 @@
 """Routes connected to users accounts"""
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, g
+from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegisterForm, LoginForm, ChangePasswordForm
 from models import User, db
@@ -43,7 +43,11 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(login=form.login.data).first()
         login_user(user)
-        return redirect(url_for('index'))
+
+        next_page = session['next']
+        if not next_page:
+            next_page = url_for('index')
+        return redirect(next_page)
 
     return render_template('login.html', form=form)
 

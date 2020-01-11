@@ -13,6 +13,7 @@ class Config(object):
     SESSION_REDIS = Redis(REDIS_HOST)
     PERMANENT_SESSION_LIFETIME = 60 * 15
     SESSION_COOKIE_SECURE = FLASK_ENV == 'production'
+    USE_SESSION_FOR_NEXT = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'sqlite.db')
