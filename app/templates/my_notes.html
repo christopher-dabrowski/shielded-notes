@@ -22,7 +22,8 @@
         <div class="card-header">
           <input class="form-control w-75 float-left" type="text" name="heading" placeholder="Nagłówek notatki"
             maxlength="15">
-          <div id="global-badge" class="float-right badge badge-pill badge-info" style="display: none;">
+          <div id="global-badge" class="float-right badge badge-pill badge-info"
+            style="display: none; font-size: larger;">
             <i class="fas fa-globe-europe"></i>
           </div>
         </div>
@@ -72,7 +73,7 @@
           <span class="float-left">{{note.heading}}</span>
           {% if note.public %}
           <div id="global-badge" class="float-right badge badge-pill badge-info">
-            <i class="fas fa-globe-europe"></i>
+            <i class="fas fa-globe-europe" style="font-size: larger;"></i>
           </div>
           {% endif %}
         </div>
