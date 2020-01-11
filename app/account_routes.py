@@ -44,7 +44,7 @@ def login():
         user = User.query.filter_by(login=form.login.data).first()
         login_user(user)
 
-        next_page = session['next']
+        next_page = session.get('next', None)
         session['next'] = None
         if not next_page:
             next_page = url_for('index')
