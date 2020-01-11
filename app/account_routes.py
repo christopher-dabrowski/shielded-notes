@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegisterForm, LoginForm, ChangePasswordForm
-from models import User, db
+from models import User, db, Login
 import bcrypt
 
 users = Blueprint('account', __name__, template_folder='templates')
@@ -39,9 +39,17 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
+    print(Login.query.all())
+
     form = LoginForm(meta={'csrf_context': session})
+    user = User.query.filter_by(login=form.login.data).first()
+    if user:  # A login attempt
+        ip = request.remote_addr
+        login = Login(successful=form.validate(), ip=ip, user=user)
+        db.session.add(login)
+        db.session.commit()
+
     if form.validate_on_submit():
-        user = User.query.filter_by(login=form.login.data).first()
         login_user(user)
 
         next_page = session.get('next', None)

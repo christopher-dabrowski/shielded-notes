@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
 from flask_login import UserMixin
 import bcrypt
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -13,6 +14,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String())
     lucky_number = db.Column(db.Integer)
     notes = db.relationship('Note', backref='owner', lazy=True)
+    login_attempts = db.relationship('Login', backref='user', lazy=True)
 
     def set_password(self, password):
         self.password_hash = bcrypt.hashpw(
@@ -40,10 +42,19 @@ class Share(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     note_id = db.Column(db.Integer, db.ForeignKey('note.id'))
-    user_name = db.Column(db.String())
+    user_name = db.Column(db.String(), index=True)
 
     def __repr__(self):
         return f'User: {self.user_name} NoteId: {self.note_id}'
+
+
+class Login(db.Model):
+    """Log user logins"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    successful = db.Column(db.Boolean())
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    ip = db.Column(db.String())
 
 
 def fill_db_with_values():
