@@ -45,6 +45,7 @@ def login():
         login_user(user)
 
         next_page = session['next']
+        session['next'] = None
         if not next_page:
             next_page = url_for('index')
         return redirect(next_page)
