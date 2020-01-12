@@ -3,12 +3,13 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, abort
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegisterForm, LoginForm, ChangePasswordForm, RecoverPasswordForm
-from models import User, db, Login
+from models import db, User, Login, RecoveryToken
 import bcrypt
 import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from urllib.parse import urlsplit, urlunsplit
 
 users = Blueprint('account', __name__, template_folder='templates')
 
@@ -126,13 +127,40 @@ def change_password():
     return render_template('change_password.html', form=form)
 
 
-@users.route('/resetPassword', methods=['GET', 'POST'])
+@users.route('/recoverPassword', methods=['GET', 'POST'])
 def recover_password():
     form = RecoverPasswordForm(meta={'csrf_context': session})
     if form.validate_on_submit():
-        receiver_email = "k.fajny@gmail.com"
-        message = """Soon this mail will contain link to recover password"""
+        login = form.login.data
+        user = User.query.filter_by(login=login).first()
+        email = user.email
 
-        send_email(receiver_email, 'Recover password', message)
+        recovery_token = RecoveryToken(user=user)
+        db.session.add(recovery_token)
+        db.session.commit()
+
+        # Build link
+        app_url_parts = urlsplit(request.base_url)
+        url_path = url_for('account.reset_password')
+        url_query = f'token={recovery_token.token}'
+        recovery_link = urlunsplit(
+            (app_url_parts.scheme, app_url_parts.netloc, url_path, url_query, ''))
+
+        topic = 'Recover password'
+        message = f'Żeby zresetować hasło przejdź pod ten link: {recovery_link}'
+
+        send_email(email, topic, message)
+
+        flash('Na adres email podany przy rejestracji został wysłany email z linkiem do resetu hasła',
+              'alert alert-success')
+        return redirect(url_for('account.login'))
 
     return render_template('recover_password.html', form=form)
+
+
+@users.route('/resetPassword')
+def reset_password():
+    print(request.args)
+    print(request.args['token'])
+
+    return 'Happy now?'
