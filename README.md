@@ -22,7 +22,7 @@ Do uruchomienia projektu w ten sposób wymagany jest [Docker](https://www.docker
 
 Napisz aplikację WWW realizującą uwierzytelnianie w oparciu o tajne hasło. Zwróć uwagę na:
 
-- **(niezbędne)** restrykcyjna weryfikacje danych pochodzących z formularza login-hasło,
+- :white_check_mark: **(niezbędne)** restrykcyjna weryfikacje danych pochodzących z formularza login-hasło,
 - :white_check_mark: **(niezbędne)** przechowywanie hasła chronione funkcją hash i solą,
 - :white_check_mark: **(niezbędne)** możliwość umieszczenia na serwerze notatek dostępnych publicznie lub dla określonych - użytkowników,
 - :white_check_mark: **(niezbędne)** zabezpieczenie transmisji poprzez wykorzystanie protokołu https,

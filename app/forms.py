@@ -1,7 +1,7 @@
 from flask_wtf.form import FlaskForm
 from flask import current_app
 from wtforms import StringField, PasswordField, ValidationError, FileField, Form, IntegerField, TextAreaField, BooleanField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
+from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange, Regexp
 from wtforms.csrf.session import SessionCSRF
 from datetime import timedelta
 from config import Config
@@ -49,6 +49,8 @@ class RegisterForm(BaseForm):
     login = StringField('login', validators=[
         DataRequired('Brak loginu'),
         Length(min=4, message='Login musi mieć co najmniej 4 znaki'),
+        Regexp('^[A-Za-z0-9_-]*$',
+               message='Login może składać się tylko z liter łacińskich liczb i znaków _ -'),
         UniqueLogin()
     ])
 
