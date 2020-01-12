@@ -7,8 +7,33 @@ from models import User, db, Login
 import bcrypt
 import smtplib
 import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 users = Blueprint('account', __name__, template_folder='templates')
+
+
+def send_email(adres: str, title: str, content: str) -> None:
+    port = 465  # For SSL
+    mail_login = current_app.config['GMAIL_LOGIN']
+    mail_password = current_app.config['GMAIL_PASSWORD']
+
+    if not mail_login or not mail_password:
+        abort(500)
+
+    sender_email = mail_login
+    receiver_email = adres
+    message = MIMEMultipart("alternative")
+    message["Subject"] = title
+    message["From"] = sender_email
+    message["To"] = receiver_email
+
+    part1 = MIMEText(content, "plain")
+    message.attach(part1)
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=ssl.create_default_context()) as server:
+        server.login(mail_login, mail_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -105,26 +130,9 @@ def change_password():
 def recover_password():
     form = RecoverPasswordForm(meta={'csrf_context': session})
     if form.validate_on_submit():
-        port = 465  # For SSL
-        mail_login = current_app.config['GMAIL_LOGIN']
-        mail_password = current_app.config['GMAIL_PASSWORD']
+        receiver_email = "k.fajny@gmail.com"
+        message = """Soon this mail will contain link to recover password"""
 
-        print('Mail on the way!')
-        print(mail_login, mail_password)
-
-        if not mail_login or not mail_password:
-            abort(500)
-
-        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=ssl.create_default_context()) as server:
-            server.login(mail_login, mail_password)
-
-            sender_email = mail_login
-            receiver_email = "k.fajny@gmail.com"
-            message = """\
-            Subject: Password recovery
-
-            Soon this mail will contain link to recover password"""
-
-            server.sendmail(sender_email, receiver_email, message)
+        send_email(receiver_email, 'Recover password', message)
 
     return render_template('recover_password.html', form=form)
