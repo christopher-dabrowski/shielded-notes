@@ -10,9 +10,21 @@ import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import urlsplit, urlunsplit
-from datetime import datetime
+from datetime import datetime, timedelta
+from time import sleep
 
 users = Blueprint('account', __name__, template_folder='templates')
+
+
+def calculate_login_delay(login_count: int) -> int:
+    if login_count <= 3:
+        return 0
+    if login_count <= 10:
+        return 1
+    if login_count <= 100:
+        return 5
+
+    return 20
 
 
 def send_email(adres: str, title: str, content: str) -> None:
@@ -70,11 +82,19 @@ def login():
 
     form = LoginForm(meta={'csrf_context': session})
     user = User.query.filter_by(login=form.login.data).first()
+
     if user and form.password.data:  # A login attempt
         ip = request.remote_addr
         login = Login(successful=form.validate(), ip=ip, user=user)
         db.session.add(login)
         db.session.commit()
+
+        # Slow down brute force attempts
+        time_boundary = datetime.utcnow() - timedelta(minutes=5)
+        recent_login_attempts = len(
+            [a for a in user.login_attempts if a.timestamp > time_boundary])
+
+        sleep(calculate_login_delay(recent_login_attempts))
 
     if form.validate_on_submit():
         login_user(user)
