@@ -92,7 +92,7 @@ def login():
         # Slow down brute force attempts
         time_boundary = datetime.utcnow() - timedelta(minutes=5)
         recent_login_attempts = len(
-            [a for a in user.login_attempts if a.timestamp > time_boundary])
+            [a for a in user.login_attempts if a.timestamp > time_boundary and not a.successful])
 
         sleep(calculate_login_delay(recent_login_attempts))
 
