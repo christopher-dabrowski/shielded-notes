@@ -148,3 +148,14 @@ class CreateNoteForm(BaseForm):
 
     public = BooleanField()
     shares = TextAreaField()
+
+
+class RecoverPasswordForm(BaseForm):
+    login = StringField('login', validators=[
+        DataRequired('Brak loginu'),
+        LoginInDatabase()
+    ])
+
+    lucky_number = IntegerField('Lucky number', validators=[
+        DataRequired('Brak szczęśliwej liczby')
+    ])

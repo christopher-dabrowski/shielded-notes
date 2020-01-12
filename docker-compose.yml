@@ -13,6 +13,8 @@ services:
     build: ./app
     environment:
       - REDIS_HOST=redis
+    env_file:
+      - ./app/docker.env
     depends_on:
       - redis
 

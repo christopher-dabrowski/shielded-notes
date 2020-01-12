@@ -1,10 +1,12 @@
 """Routes connected to users accounts"""
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app
+from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, abort
 from flask_login import current_user, login_user, logout_user, login_required
-from forms import RegisterForm, LoginForm, ChangePasswordForm
+from forms import RegisterForm, LoginForm, ChangePasswordForm, RecoverPasswordForm
 from models import User, db, Login
 import bcrypt
+import smtplib
+import ssl
 
 users = Blueprint('account', __name__, template_folder='templates')
 
@@ -97,3 +99,32 @@ def change_password():
         return redirect(url_for('account.account'))
 
     return render_template('change_password.html', form=form)
+
+
+@users.route('/resetPassword', methods=['GET', 'POST'])
+def recover_password():
+    form = RecoverPasswordForm(meta={'csrf_context': session})
+    if form.validate_on_submit():
+        port = 465  # For SSL
+        mail_login = current_app.config['GMAIL_LOGIN']
+        mail_password = current_app.config['GMAIL_PASSWORD']
+
+        print('Mail on the way!')
+        print(mail_login, mail_password)
+
+        if not mail_login or not mail_password:
+            abort(500)
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=ssl.create_default_context()) as server:
+            server.login(mail_login, mail_password)
+
+            sender_email = mail_login
+            receiver_email = "k.fajny@gmail.com"
+            message = """\
+            Subject: Password recovery
+
+            Soon this mail will contain link to recover password"""
+
+            server.sendmail(sender_email, receiver_email, message)
+
+    return render_template('recover_password.html', form=form)

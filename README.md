@@ -15,6 +15,8 @@ Przygotowanie bezpiecznej aplikacji webowej. Aplikacja będzie pozwalała na wym
 
 ## Uruchamianie projektu
 
+Do działania odzyskiwania hasła przez mail trzeba ustawić zmienne środowiskowe `GMAIL_LOGIN` i `GMAIL_PASSWORD` w pliku [docker.env](./app/docker.env).
+
 By uruchomić projekt wystarczy wykonać `docker-compose up` w głównym katalogu. Projekt będzie widoczny pod adresem [https://localhost](htts://localhost).  
 Do uruchomienia projektu w ten sposób wymagany jest [Docker](https://www.docker.com/).
 

@@ -20,3 +20,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or token_hex(1024)
+
+    GMAIL_LOGIN = os.environ.get('GMAIL_LOGIN') or ''
+    GMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD') or ''
