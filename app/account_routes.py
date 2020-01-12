@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session, current_app, abort
 from flask_login import current_user, login_user, logout_user, login_required
-from forms import RegisterForm, LoginForm, ChangePasswordForm, RecoverPasswordForm
+from forms import RegisterForm, LoginForm, ChangePasswordForm, RecoverPasswordForm, ResetPasswordForm
 from models import db, User, Login, RecoveryToken
 import bcrypt
 import smtplib
@@ -182,4 +182,25 @@ def validate_password_token():
         abort(400)
 
     session['can_reset_password'] = True
-    return 'Looks good to me'
+    session['login'] = login
+    return redirect(url_for('account.reset_password'))
+
+
+@users.route('/resetPassword', methods=['GET', 'POST'])
+def reset_password():
+    login = session.get('login', None)
+    if not session.get('can_reset_password', None) or not login:
+        abort(400)
+
+    form = ResetPasswordForm(meta={'csrf_context': session})
+    if form.validate_on_submit():
+        password = form.password.data
+        user = User.query.filter_by(login=login).first()
+        user.set_password(password)
+        db.session.commit()
+
+        session['can_reset_password'] = False
+        flash('Hasło zostało zmienione', 'alert alert-success')
+        return redirect(url_for('account.login'))
+
+    return render_template('reset_password.html', form=form)

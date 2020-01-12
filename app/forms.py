@@ -177,3 +177,14 @@ class RecoverPasswordForm(BaseForm):
         DataRequired('Brak szczęśliwej liczby'),
         CorrectLuckyNumber()
     ])
+
+
+class ResetPasswordForm(BaseForm):
+    password = PasswordField('password', validators=[
+        DataRequired('Brak hasła'),
+        Length(min=6, message='Hasło musi mieć co najmniej 6 znaków'),
+        Length(max=72, message='Hasło może mieć co najwyżej 72 znaki')
+    ])
+    password2 = PasswordField('password2', validators=[
+        EqualTo('password', 'Hasła się różnią')
+    ])

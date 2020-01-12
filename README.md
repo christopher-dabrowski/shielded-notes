@@ -34,5 +34,5 @@ Napisz aplikację WWW realizującą uwierzytelnianie w oparciu o tajne hasło. Z
 - :white_check_mark: weryfikacja liczby nieudanych prób logowania,
 - dodanie opóźnienia przy weryfikacji hasła w celu wydłużenia ataków zdalnych,
 - :white_check_mark: sprawdzanie jakości hasła (jego entropii),
-- możliwość odzyskania dostępu w przypadku utraty hasła,
+- :white_check_mark: możliwość odzyskania dostępu w przypadku utraty hasła,
 - :white_check_mark: informowanie użytkownika o nowych podłączeniach do jego konta.
