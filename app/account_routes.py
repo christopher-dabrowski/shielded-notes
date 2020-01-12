@@ -68,8 +68,6 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
-    print(Login.query.all())
-
     form = LoginForm(meta={'csrf_context': session})
     user = User.query.filter_by(login=form.login.data).first()
     if user and form.password.data:  # A login attempt

@@ -33,7 +33,6 @@ def my_notes():
         flash('Notatka została dodana', 'alert alert-success')
 
     notes = user.notes
-    print(notes)
     return render_template('my_notes.html', form=form, notes=notes)
 
 
@@ -67,7 +66,4 @@ def view_notes():
 
     notes = public_notes + notes_shared_with_me
 
-    print(public_notes)
-    print(notes_shared_with_me)
-    print(notes)
     return render_template('view_notes.html', notes=notes)
