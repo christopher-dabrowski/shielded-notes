@@ -34,7 +34,7 @@ class RecoveryToken(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     expiration = db.Column(
         db.DateTime, default=(lambda: datetime.utcnow() + TOKEN_VALID_TIME))
-    token = db.Column(db.String(), default=(
+    token = db.Column(db.String(), index=True, default=(
         lambda: token_urlsafe(TOKEN_LENGTH)))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
