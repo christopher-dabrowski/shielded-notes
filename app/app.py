@@ -29,10 +29,3 @@ app.register_blueprint(notes)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-@app.route('/session')
-def get_session():
-    # TODO: Remove session route
-    print(list(str(zip(session.keys(), session.values()))))
-    return str(list(zip(session.keys(), session.values())))

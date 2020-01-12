@@ -9,7 +9,6 @@
     <h3 class="card-title text-center">Logowanie</h3>
 
     <form method="POST" action={{url_for('account.login')}}>
-      <!-- TODO: Display entropy -->
       {{ form.csrf_token }}
       <div class="form-group">
         <label for="login">Login</label>

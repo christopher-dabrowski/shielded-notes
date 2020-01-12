@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block css_links %}
-<!-- <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }}> -->
 {% endblock %}
 
 {% block main %}
@@ -13,7 +12,6 @@
     </p>
 
     <form method="POST" action="/register">
-      <!-- TODO: Display entropy -->
       {{ form.csrf_token }}
       <div class="form-group">
         <label for="login">Login</label>
