@@ -10,6 +10,7 @@ import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import urlsplit, urlunsplit
+from datetime import datetime
 
 users = Blueprint('account', __name__, template_folder='templates')
 
@@ -141,8 +142,8 @@ def recover_password():
 
         # Build link
         app_url_parts = urlsplit(request.base_url)
-        url_path = url_for('account.reset_password')
-        url_query = f'token={recovery_token.token}'
+        url_path = url_for('account.validate_password_token')
+        url_query = f'user={login}&token={recovery_token.token}'
         recovery_link = urlunsplit(
             (app_url_parts.scheme, app_url_parts.netloc, url_path, url_query, ''))
 
@@ -158,9 +159,27 @@ def recover_password():
     return render_template('recover_password.html', form=form)
 
 
-@users.route('/resetPassword')
-def reset_password():
-    print(request.args)
-    print(request.args['token'])
+@users.route('/validatePasswordToken')
+def validate_password_token():
+    token = request.args.get('token', None)
+    login = request.args.get('user', None)
+    if not token or not login:
+        abort(400)
 
-    return 'Happy now?'
+    user = User.query.filter_by(login=login).first()
+    if not user:
+        abort(404)
+
+    recovery_token = [t for t in user.recovery_tokens if t.token == token]
+    if len(recovery_token) < 1:
+        abort(404)
+    if len(recovery_token) > 1:
+        abort(500)
+
+    recovery_token = recovery_token[0]
+    if recovery_token.expiration < datetime.utcnow():
+        flash('Przeterminowany token', 'alert alert-danger')
+        abort(400)
+
+    session['can_reset_password'] = True
+    return 'Looks good to me'
