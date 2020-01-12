@@ -2,9 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
 from flask_login import UserMixin
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timedelta
+from secrets import token_urlsafe
 
 db = SQLAlchemy()
+
+TOKEN_VALID_TIME = timedelta(minutes=30)
+TOKEN_LENGTH = 50
 
 
 class User(UserMixin, db.Model):
@@ -15,6 +19,8 @@ class User(UserMixin, db.Model):
     lucky_number = db.Column(db.Integer)
     notes = db.relationship('Note', backref='owner', lazy=True)
     login_attempts = db.relationship('Login', backref='user', lazy=True)
+    recovery_tokens = db.relationship(
+        'RecoveryToken', backref='user', lazy=True)
 
     def set_password(self, password):
         self.password_hash = bcrypt.hashpw(
@@ -22,6 +28,14 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'{self.login}'
+
+
+class RecoveryToken(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    expiration = db.Column(
+        db.DateTime, default=(lambda: datetime.utcnow() + TOKEN_VALID_TIME))
+    token = db.Column(db.String(), default=token_urlsafe(TOKEN_LENGTH))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 class Note(db.Model):
@@ -49,7 +63,7 @@ class Share(db.Model):
 
 
 class Login(db.Model):
-    """Log user logins"""
+    """Log user login attempts"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     successful = db.Column(db.Boolean())
