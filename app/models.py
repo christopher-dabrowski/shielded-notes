@@ -14,7 +14,7 @@ TOKEN_LENGTH = 50
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(), index=True, unique=True)
-    email = db.Column(db.String(), index=True, unique=True)
+    email = db.Column(db.String(), unique=True)
     password_hash = db.Column(db.String())
     lucky_number = db.Column(db.Integer)
     notes = db.relationship('Note', backref='owner', lazy=True)
@@ -73,7 +73,7 @@ class Login(db.Model):
 
 def fill_db_with_values():
     tomas = User(
-        login='Tomasz', email='tomasz@pw.edu.pl', lucky_number=17)
+        login='Tomasz', email='293101@pw.edu.pl', lucky_number=17)
     tomas.set_password('Pa$$word')
     db.session.add(tomas)
 
