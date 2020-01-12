@@ -19,6 +19,7 @@ db.init_app(app)
 with app.app_context():
     db.drop_all()
     db.create_all()
+    db.session.commit()
     fill_db_with_values()
 login_manager.init_app(app)
 
