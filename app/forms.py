@@ -150,6 +150,23 @@ class CreateNoteForm(BaseForm):
     shares = TextAreaField()
 
 
+class CorrectLuckyNumber(object):
+    def __init__(self, message=None):
+        if not message:
+            message = 'Nieprawidłowa liczba'
+        self.message = message
+
+    def __call__(self, form, field):
+        login = form.login.data
+        lucky_number = field.data
+        with current_app.app_context():
+            user = User.query.filter(User.login == login).first()
+            if user is None:
+                return
+            if user.lucky_number != lucky_number:
+                raise ValidationError(self.message)
+
+
 class RecoverPasswordForm(BaseForm):
     login = StringField('login', validators=[
         DataRequired('Brak loginu'),
@@ -157,5 +174,6 @@ class RecoverPasswordForm(BaseForm):
     ])
 
     lucky_number = IntegerField('Lucky number', validators=[
-        DataRequired('Brak szczęśliwej liczby')
+        DataRequired('Brak szczęśliwej liczby'),
+        CorrectLuckyNumber()
     ])
