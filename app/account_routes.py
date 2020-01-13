@@ -102,7 +102,7 @@ def login():
         next_page = session.get('next', None)
         session['next'] = None
         if not next_page:
-            next_page = url_for('index')
+            next_page = url_for('notes.view_notes')
         return redirect(next_page)
 
     return render_template('login.html', form=form)
