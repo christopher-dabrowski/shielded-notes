@@ -133,6 +133,7 @@ def account():
 @users.route('/account/changePassword', methods=['GET', 'POST'])
 def change_password():
     form = ChangePasswordForm(meta={'csrf_context': session})
+    form.login.data = current_user.login
     if form.validate_on_submit():
         password = form.password.data
         current_id = current_user.id
