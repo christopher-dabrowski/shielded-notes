@@ -1,9 +1,9 @@
 """Entry point of the application"""
 
 from flask import Flask, request, render_template, current_app, session, redirect, url_for
-from flaskext.markdown import Markdown
 from flask_session import Session
 from flask_login import current_user
+from flask_misaka import Misaka
 from config import Config
 from models import db, User, fill_db_with_values
 from login import login_manager
@@ -13,7 +13,7 @@ from notes_routes import notes
 app = Flask(__name__)
 app.config.from_object(Config)
 Session(app)
-Markdown(app)
+Misaka(app, escape=True)
 
 db.init_app(app)
 with app.app_context():
