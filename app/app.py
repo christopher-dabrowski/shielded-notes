@@ -13,7 +13,7 @@ from notes_routes import notes
 app = Flask(__name__)
 app.config.from_object(Config)
 Session(app)
-Markdown(app)
+Markdown(app, auto_escape=True)
 
 db.init_app(app)
 with app.app_context():
